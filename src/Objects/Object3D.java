@@ -1,11 +1,11 @@
 package Objects;
 
-import Render.Intersection;
-import Render.Ray;
+import Render.IIntersect;
+
 
 import java.awt.*;
 
-public abstract class Object3D {
+public abstract class Object3D implements IIntersect {
     Vector3 position;
     Color color;
 
@@ -29,6 +29,4 @@ public abstract class Object3D {
     public void setColor(Color color) {
         this.color = color;
     }
-
-    public abstract Intersection getIntersection(Ray ray);
 }

@@ -1,13 +1,17 @@
 import Objects.Object3D;
+import Objects.Polygon;
 import Objects.Triangle;
 import Objects.Vector3;
 import Render.*;
 import Objects.Sphere;
+import Tools.ObjReader;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,12 +22,13 @@ public class Main {
         System.out.println(new Date());
 
         Scene scene01 = new Scene();
-        scene01.setCamera(new Camera(new Vector3(0, 0, -8), 10,200, 160, 160, 800,800));
-        scene01.addObject(new Sphere(new Vector3(0f, 0f, 13f), 1f, Color.RED));
-        scene01.addObject(new Sphere(new Vector3(-1f, -1f, 12f), 1f, Color.BLUE));
-        scene01.addObject(new Sphere(new Vector3(-2f, 3f, 20f), 1f, Color.BLACK));
-        scene01.addObject(new Triangle(new Vector3(2f, 2f, 11f),new Vector3(4f, 2f, 11f), new Vector3(3f, 1f, 11f), Color.ORANGE));
+        scene01.setCamera(new Camera(new Vector3(0, 1f, -8), 0,200, 160, 160, 800,800));
 
+        try {
+            scene01.addObject(ObjReader.extractDataFromFileAndCreatePolygon(getData("./src/smallTeapot.obj")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         BufferedImage image = Raytracer.raytrace(scene01);
         File outputImage = new File("image.png");
         try {
@@ -35,6 +40,14 @@ public class Main {
         System.out.println(new Date());
     }
 
-
+    public static ArrayList<String> getData(String filename)throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File(filename).getAbsolutePath()));
+        String line = reader.toString();
+        ArrayList <String> file = new ArrayList<>();
+        while ( (line = reader.readLine()) != null){
+            file.add(line);
+        }
+        return file;
+    }
 
 }
