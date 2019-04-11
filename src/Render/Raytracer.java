@@ -15,7 +15,7 @@ public abstract class Raytracer {
             Object3D currentObj = objects.get(k);
 
             if (caster == null || !currentObj.equals(caster)) {
-                Intersection intersection = currentObj.getIntersection(ray);
+                Intersection intersection = currentObj.getIntersection(ray, mainCamera);
                 if (intersection != null) {
                     double distance = intersection.getDistance();
 
@@ -49,6 +49,13 @@ public abstract class Raytracer {
                 Color pixelColor = Color.WHITE;
                 if (closestIntersection != null ) {
                     pixelColor = closestIntersection.getObject().getColor();
+                    DirectionalLigth ligth = (DirectionalLigth) scene.getLigths().get(0);
+                    float red = (float)((ligth.getIntensity() * ligth.getColor().getRed() * pixelColor.getRed()) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())))/255;
+                    float blue = (float)((ligth.getIntensity() * ligth.getColor().getBlue() * pixelColor.getBlue()) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())))/255;
+                    float green = (float)((ligth.getIntensity() * ligth.getColor().getGreen() * pixelColor.getGreen()) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())))/255;
+                    Color colorWithShades = new Color((Math.abs(red)/255),(Math.abs(green)/255),(Math.abs(blue/255)));
+                    pixelColor = colorWithShades;
+
                 }
                 image.setRGB(i, j, pixelColor.getRGB());
             }

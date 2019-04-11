@@ -1,5 +1,6 @@
 package Objects;
 
+import Render.Camera;
 import Render.Intersection;
 import Render.Ray;
 
@@ -9,7 +10,7 @@ import java.awt.*;
 public class Triangle extends Object3D {
     private Vector3 position2;
     private Vector3 position3;
-    private static double EPSILON = 0.000001;
+    private static double EPSILON = 0.000000001;
 
     public Triangle(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Color color) {
         super(vertex1, color);
@@ -50,7 +51,7 @@ public class Triangle extends Object3D {
     }
 
     @Override
-    public Intersection getIntersection(Ray ray) {
+    public Intersection getIntersection(Ray ray, Camera cam) {
 
         double distance = -1;
         Vector3 normal = Vector3.ZERO();
@@ -74,7 +75,6 @@ public class Triangle extends Object3D {
         normal = Vector3.normalize(Vector3.crossProduct(v1v0, v2v0));
 
         return new Intersection(new Vector3(0f, 0f, t), t, normal, this);
-
 
     }
 

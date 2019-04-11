@@ -8,7 +8,6 @@ import java.awt.*;
 public abstract class Object3D implements IIntersect {
     Vector3 position;
     Color color;
-
     public Object3D(Vector3 position, Color color){
         setColor(color);
         setPosition(position);

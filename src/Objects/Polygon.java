@@ -1,41 +1,21 @@
 package Objects;
 
-import Render.IIntersect;
-import Render.Intersection;
-import Render.Ray;
-import Render.Raytracer;
+import Render.*;
 
 import java.util.ArrayList;
 
 public class Polygon extends Object3D implements IIntersect {
-    private ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+    private ArrayList<Object3D> triangles = new ArrayList<Object3D>();
     public Polygon() {
         super(null,null);
     }
 
     @Override
-    public Intersection getIntersection(Ray ray) {
+    public Intersection getIntersection(Ray ray, Camera cam) {
 
-        //New way to render that stuff.
-        //Raytracer.raycast(ray, triangles, null,  )
-        ArrayList<Intersection> intersections = new ArrayList<Intersection>();
 
-        for (Triangle triangle: triangles) {
-           intersections.add(triangle.getIntersection(ray));
-        }
-        Intersection inter = null;
-        for (Intersection curr: intersections) {
-            if(curr != null){
-                if(inter == null){
-                    inter = curr;
-                }
-                else if(inter.getDistance() > curr.getDistance()){
-                    inter = curr;
-                }
-            }
+        return Raytracer.raycast(ray, triangles, null, cam );
 
-        }
-        return inter;
     }
 
     public void addTriangle(Triangle triangle) {
@@ -44,7 +24,7 @@ public class Polygon extends Object3D implements IIntersect {
         triangles.add(triangle);
     }
 
-    public ArrayList<Triangle> getTriangles() {
+    public ArrayList<Object3D> getTriangles() {
         return this.triangles;
     }
 

@@ -7,9 +7,21 @@ import java.util.ArrayList;
 public class Scene {
     private Camera camera;
     private ArrayList<Object3D> objects;
+    private  ArrayList<Ligth> ligths;
 
+    public ArrayList<Ligth> getLigths() {
+        return ligths;
+    }
+
+    public void setLigths(ArrayList<Ligth> ligths) {
+        this.ligths = ligths;
+    }
+    public void addLigth(Ligth ligth){
+        ligths.add(ligth);
+    }
     public Scene(){
         setObjects(new ArrayList<Object3D>());
+        setLigths(new ArrayList<Ligth>());
     }
 
     public void addObject(Object3D object){

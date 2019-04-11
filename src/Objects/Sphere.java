@@ -1,5 +1,6 @@
 package Objects;
 
+import Render.Camera;
 import Render.Intersection;
 import Render.Ray;
 
@@ -22,7 +23,7 @@ public class Sphere extends Object3D {
 
 
 	@Override
-	public Intersection getIntersection(Ray ray) {
+	public Intersection getIntersection(Ray ray, Camera cam) {
 		double distance = -1;
 		Vector3 normal = Vector3.ZERO();
 		Vector3 position = Vector3.ZERO();

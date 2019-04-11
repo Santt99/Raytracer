@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,12 +24,13 @@ public class Main {
 
         Scene scene01 = new Scene();
         scene01.setCamera(new Camera(new Vector3(0, 1f, -8), 0,200, 160, 160, 800,800));
-
+        scene01.addLigth(new DirectionalLigth(new Vector3(0,1,1),new Color(150, 145,0),.5f,Ligth.TypeOfLigth.Directional));
         try {
-            scene01.addObject(ObjReader.extractDataFromFileAndCreatePolygon(getData("./src/smallTeapot.obj")));
+            scene01.addObject(ObjReader.extractDataFromFileAndCreatePolygon(getData("smallTeapot.obj")));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        scene01.addObject(new Sphere(new Vector3(1,2,2),2,Color.red));
         BufferedImage image = Raytracer.raytrace(scene01);
         File outputImage = new File("image.png");
         try {

@@ -105,7 +105,7 @@ public class Camera extends Object3D {
 
 
     @Override
-    public Intersection getIntersection(Ray ray) {
+    public Intersection getIntersection(Ray ray, Camera cam) {
         return null;
     }
 }

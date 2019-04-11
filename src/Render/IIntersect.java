@@ -1,6 +1,6 @@
 package Render;
 
 public interface IIntersect {
-     Intersection getIntersection(Ray ray);
+     Intersection getIntersection(Ray ray, Camera cam);
 
 }
