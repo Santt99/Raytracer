@@ -53,7 +53,29 @@ public abstract class Raytracer {
                     float red = (float)((ligth.getIntensity() * ligth.getColor().getRed() * pixelColor.getRed()) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())))/255;
                     float blue = (float)((ligth.getIntensity() * ligth.getColor().getBlue() * pixelColor.getBlue()) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())))/255;
                     float green = (float)((ligth.getIntensity() * ligth.getColor().getGreen() * pixelColor.getGreen()) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())))/255;
-                    Color colorWithShades = new Color((Math.abs(red)/255),(Math.abs(green)/255),(Math.abs(blue/255)));
+                    red = (Math.abs(red));
+                    green = (Math.abs(green));
+                    blue = (Math.abs(blue));
+
+                    if(blue < 0)
+                        blue = 0;
+
+                    if(green < 0)
+                        green = 0;
+
+                    if(red < 0)
+                        red = 0;
+
+                    if(blue > 255)
+                        blue = 255;
+
+                    if(green > 255)
+                        green = 255;
+
+                    if(red > 255)
+                        red = 255;
+
+                    Color colorWithShades = new Color(red/255,green/255,blue/255);
                     pixelColor = colorWithShades;
 
                 }

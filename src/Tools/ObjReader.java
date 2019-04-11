@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public abstract class ObjReader {
 
 
-    public static Polygon extractDataFromFileAndCreatePolygon(ArrayList<String> rawText) {
-        Polygon poly = new Polygon();
+    public static Polygon extractDataFromFileAndCreatePolygon(ArrayList<String> rawText, Vector3 pos) {
+        Polygon poly = new Polygon(pos);
         ArrayList<Vector3> vertices = new ArrayList<Vector3>();
         for (int index = 0; index < rawText.size(); index++) {
 
