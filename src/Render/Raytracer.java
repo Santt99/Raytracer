@@ -46,37 +46,17 @@ public abstract class Raytracer {
                 Intersection closestIntersection = raycast(ray, objects, null,mainCamera);
 
                 // Background color
-                Color pixelColor = Color.WHITE;
+                Color pixelColor = Color.black;
                 if (closestIntersection != null ) {
-                    pixelColor = closestIntersection.getObject().getColor();
+                    Color intersectionColor = closestIntersection.getObject().getColor();
                     DirectionalLigth ligth = (DirectionalLigth) scene.getLigths().get(0);
-                    float red = (float)((ligth.getIntensity() * ligth.getColor().getRed() * pixelColor.getRed()) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())))/255;
-                    float blue = (float)((ligth.getIntensity() * ligth.getColor().getBlue() * pixelColor.getBlue()) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())))/255;
-                    float green = (float)((ligth.getIntensity() * ligth.getColor().getGreen() * pixelColor.getGreen()) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())))/255;
-                    red = (Math.abs(red));
-                    green = (Math.abs(green));
-                    blue = (Math.abs(blue));
+                    float red = (float)((ligth.getIntensity() * (ligth.getColor().getRed()/255f) * (intersectionColor.getRed()/255f)) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())));
+                    float blue = (float)((ligth.getIntensity() * (ligth.getColor().getBlue()/255f) * (intersectionColor.getBlue()/255f)) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())));
+                    float green = (float)((ligth.getIntensity() * (ligth.getColor().getGreen()/255f) * (intersectionColor.getGreen()/255f)) * (Vector3.dotProduct(closestIntersection.getNormal(), ligth.getDirection())));
 
-                    if(blue < 0)
-                        blue = 0;
 
-                    if(green < 0)
-                        green = 0;
-
-                    if(red < 0)
-                        red = 0;
-
-                    if(blue > 255)
-                        blue = 255;
-
-                    if(green > 255)
-                        green = 255;
-
-                    if(red > 255)
-                        red = 255;
-
-                    Color colorWithShades = new Color(red/255,green/255,blue/255);
-                    pixelColor = colorWithShades;
+                    Color colorWithShades = new Color(clamp(red,0,1),clamp(green,0,1),clamp(blue,0,1));
+                    pixelColor = addColor(pixelColor, colorWithShades);
 
                 }
                 image.setRGB(i, j, pixelColor.getRGB());
@@ -84,5 +64,23 @@ public abstract class Raytracer {
         }
 
         return image;
+    }
+    public static float clamp(float value, float min, float max) {
+        if (value < min) {
+            return min;
+        }
+
+        if (value > max) {
+            return max;
+        }
+
+        return value;
+    }
+
+    public static Color addColor(Color original, Color otherColor) {
+        float red = clamp((original.getRed() / 255.0f) + (otherColor.getRed() / 255.0f), 0, 1);
+        float green = clamp((original.getGreen() / 255.0f) + (otherColor.getGreen() / 255.0f), 0, 1);
+        float blue = clamp((original.getBlue() / 255.0f) + (otherColor.getBlue() / 255.0f), 0, 1);
+        return new Color(red, green, blue);
     }
 }
