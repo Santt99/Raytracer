@@ -50,6 +50,10 @@ public class Triangle extends Object3D {
         this.position3 = position3;
     }
 
+    public Vector3[] getVertices(){
+        Vector3[] vertices = {position,position2,position3};
+        return vertices;
+    }
     @Override
     public Intersection getIntersection(Ray ray, Camera cam) {
 

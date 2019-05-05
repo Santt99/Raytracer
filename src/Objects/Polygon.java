@@ -2,6 +2,7 @@ package Objects;
 
 import Render.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,8 +10,31 @@ import java.util.Set;
 
 public class Polygon extends Object3D implements IIntersect {
     private ArrayList<Object3D> triangles = new ArrayList<Object3D>();
-    public Polygon(Vector3 pos) {
-        super(pos,null);
+    public Polygon(Vector3 pos, Triangle[] triangles, Color color) {
+
+        super(pos,color);
+        setTriangles(triangles);
+    }
+
+    public ArrayList<Triangle> getTriangles() {
+        return triangles;
+    }
+
+    public void setTriangles(Triangle[] triangles) {
+        Vector3 position = getPosition();
+        Set<Vector3> uniqueVertices = new HashSet<Vector3>();
+
+        for (Triangle triangle : triangles) {
+            uniqueVertices.addAll(Arrays.asList(triangle.getVertices()));
+        }
+
+        for (Vector3 vertex : uniqueVertices) {
+            vertex.setX(vertex.getX() + position.getX());
+            vertex.setY(vertex.getY() + position.getY());
+            vertex.setZ(vertex.getZ() + position.getZ());
+        }
+
+        this.triangles = Arrays.asList(triangles);
     }
 
     @Override
@@ -31,8 +55,5 @@ public class Polygon extends Object3D implements IIntersect {
         triangles.add(triangle);
     }
 
-    public ArrayList<Object3D> getTriangles() {
-        return this.triangles;
-    }
 
 }
